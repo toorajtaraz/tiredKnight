@@ -5,7 +5,7 @@ from ai import *
 class MiniMaxPlayer(Player):
     max_depth = 2
     move_count = 0
-    def evaluate(self, board):
+    def evaluate(self, board: chess.Board) -> float:
         total = 0
         end_game = are_we_in_end_game(board)
 
@@ -23,7 +23,7 @@ class MiniMaxPlayer(Player):
         return total
 
 
-    def move(self, board):
+    def move(self, board: chess.Board) -> chess.Move:
         value = -float('inf') if self.player_color else float('inf')
         best_move = None
         legal_moves = list(board.legal_moves)
@@ -45,7 +45,10 @@ class MiniMaxPlayer(Player):
 
                 board.pop()
                 continue
-            temp = minimizer(board, self.max_depth, self.evaluate) if self.player_color else maximizer(board, self.max_depth, self.evaluate)
+            if board.can_claim_draw():
+                temp = 0
+            else:
+                temp = minimizer(board, self.max_depth, self.evaluate) if self.player_color else maximizer(board, self.max_depth, self.evaluate)
             if self.player_color:
                 if temp >= value:
                     value = temp

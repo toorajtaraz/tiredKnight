@@ -110,7 +110,7 @@ def evaluate_position(piece: chess.Piece, square: chess.Square, end_game: bool) 
         if piece.color == chess.WHITE:
             positions = knight_position_based_eval_for_white 
         else:
-            positions = knight_position_based_eval_for_white
+            positions = knight_position_based_eval_for_black
     if piece_type == chess.BISHOP:
         if piece.color == chess.WHITE:
             positions = bishop_position_based_eval_for_white 
@@ -125,7 +125,7 @@ def evaluate_position(piece: chess.Piece, square: chess.Square, end_game: bool) 
         if piece.color == chess.WHITE:
             positions = queen_position_based_eval_for_white 
         else:
-            positions = queen_position_based_eval_for_white
+            positions = queen_position_based_eval_for_black
     if piece_type == chess.KING:
         if end_game:
             if piece.color == chess.WHITE:
@@ -141,7 +141,7 @@ def evaluate_position(piece: chess.Piece, square: chess.Square, end_game: bool) 
 
     return positions[square]
 
-def are_we_in_end_game(board):
+def are_we_in_end_game(board: chess.Board) -> bool:
     queens = 0
     bishops_knights = 0
 
@@ -158,50 +158,10 @@ def are_we_in_end_game(board):
     else:
         return False
 
-def unicode_board(board):
-    out = ''
-    count = 0
-    for square in chess.SQUARES:
-        count += 1
-        piece = board.piece_at(square)
-        if not piece:
-            out += "·"
-        if piece and piece.color == chess.WHITE:
-            if piece.piece_type == chess.PAWN:
-                out += "♟"
-            if piece.piece_type == chess.KNIGHT:
-                out += "♞"
-            if piece.piece_type == chess.BISHOP:
-                out += "♝"
-            if piece.piece_type == chess.ROOK:
-                out += "♜"
-            if piece.piece_type == chess.QUEEN:
-                out += "♛"
-            if piece.piece_type == chess.KING:
-                out += "♚"
-        if piece and piece.color == chess.BLACK:
-            if piece.piece_type == chess.PAWN:
-                out += "♙"
-            if piece.piece_type == chess.KNIGHT:
-                out += "♘"
-            if piece.piece_type == chess.BISHOP:
-                out += "♗"
-            if piece.piece_type == chess.ROOK:
-                out += "♖"
-            if piece.piece_type == chess.QUEEN:
-                out += "♕"
-            if piece.piece_type == chess.KING:
-                out += "♔"
-        out += ' '
-        if count == 8:
-            out += '\n'
-            count = 0
-    return out
-
 def vanilla_eval(board):
     return 0
 
-def maximizer(board, depth, evaluate=vanilla_eval):
+def maximizer(board: chess.Board, depth: int, evaluate=vanilla_eval) -> float:
     if board.is_checkmate():
         return -float("inf")
     if depth == 0 or board.is_game_over():
@@ -213,7 +173,7 @@ def maximizer(board, depth, evaluate=vanilla_eval):
         board.pop()
     return value
 
-def minimizer(board, depth, evaluate=vanilla_eval):
+def minimizer(board: chess.Board, depth: int, evaluate=vanilla_eval) -> float:
     if board.is_checkmate():
         return float("inf")
     if depth == 0 or board.is_game_over():
