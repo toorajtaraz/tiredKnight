@@ -58,7 +58,6 @@ class MiniMaxPlayer(Player):
                     value = temp
                     best_move = move
             board.pop()
-        print(value)
         self.move_count += 1
         return best_move
 

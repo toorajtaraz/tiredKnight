@@ -1,5 +1,14 @@
 import chess
 import ai
+import platform
+import os
+def clear_screen():
+    plt = platform.system()
+    if  plt == 'Linux' or 'Darwin':
+        os.system('clear')
+    elif plt == 'Windows':
+        os.system('CLS')
+
 class ChessGame:
     white_player = None
     black_player = None
@@ -49,20 +58,17 @@ class ChessGame:
                 count = 0
         return out
     def play(self) -> chess.Outcome:
-        print('Initial board:')
-        print(self)
-        print('game begings...')
         while True:
             move = self.white_player.move(self.board)
-
             self.board.push(move)
+            clear_screen() 
             print(self)
             if self.board.is_game_over():
                 return self.board.outcome()
         
             move = self.black_player.move(self.board)
-
             self.board.push(move)
+            clear_screen() 
             print(self)
             if self.board.is_game_over():
                 return self.board.outcome()
