@@ -4,7 +4,7 @@ import platform
 import os
 def clear_screen():
     plt = platform.system()
-    if  plt == 'Linux' or 'Darwin':
+    if  plt == 'Linux' or plt == 'Darwin':
         os.system('clear')
     elif plt == 'Windows':
         os.system('CLS')
