@@ -32,6 +32,10 @@ class MiniMaxPlayer(Player):
             if board.is_checkmate():
                 board.pop()
                 return move
+            if board.can_claim_draw():
+                temp = 0
+            else:
+                temp = minimizer(board, self.max_depth, self.evaluate) if self.player_color else maximizer(board, self.max_depth, self.evaluate)
             if board.is_game_over():
                 value = max(value, self.evaluate(board)) if self.player_color else min(value, self.evaluate(board))
                 if self.player_color:
@@ -45,10 +49,6 @@ class MiniMaxPlayer(Player):
 
                 board.pop()
                 continue
-            if board.can_claim_draw():
-                temp = 0
-            else:
-                temp = minimizer(board, self.max_depth, self.evaluate) if self.player_color else maximizer(board, self.max_depth, self.evaluate)
             if self.player_color:
                 if temp >= value:
                     value = temp
